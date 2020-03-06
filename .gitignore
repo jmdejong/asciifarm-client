@@ -1,0 +1,8 @@
+**/__pycache__/
+*.sw[a-p]
+*.log
+*.pyc
+*.egg-info/
+**/dist/
+/.idea
+**.backup
