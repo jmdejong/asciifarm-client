@@ -6,7 +6,7 @@ from ratuil.layout import Layout
 from ratuil.bufferedscreen import BufferedScreen as Screen
 #from ratuil.screen import Screen
 from ratuil.textstyle import TextStyle
-from asciifarmclient.common.utils import get
+from .utils import get
 from .listselector import ListSelector
 
 
