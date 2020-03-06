@@ -13,7 +13,7 @@ from queue import Queue
 import ratuil.inputs
 
 from .inputhandler import InputHandler
-from asciifarm.common import messages
+from asciifarmclient.common import messages
 
 class Client:
     

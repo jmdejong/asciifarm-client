@@ -1,5 +1,5 @@
 
-from asciifarm.common import utils
+from asciifarmclient.common import utils
 
 
 class ListSelector:
