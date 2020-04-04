@@ -131,6 +131,9 @@ class Client:
         if msgType == "message":
             type, text = msg[1][:2]
             self.log(text, type)
+        if msgType == "messages":
+            for type, text in msg[1]:
+                self.log(text, type)
         if msgType == "options":
             if msg[1] != None:
                 description, options = msg[1]
