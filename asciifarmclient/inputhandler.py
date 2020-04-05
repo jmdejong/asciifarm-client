@@ -40,7 +40,7 @@ class InputHandler:
                         try:
                             self.commandHandler.execute([command, arg])
                         except Exception as e:
-                            self.log(e)
+                            self.client.log(e)
                     except InvalidCommandException as e:
                         self.client.log(", ".join(e.args))
             else:

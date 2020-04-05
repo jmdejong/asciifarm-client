@@ -38,7 +38,9 @@ class CommandHandler:
             "j": self.json,
             "ijson": self.ijson,
             "ij": self.ijson,
-            "hy": self.hy
+            "hy": self.hy,
+            "interact": self.interact,
+            "q": self.interact
         }
         
         self.evalArgs = {
@@ -147,4 +149,6 @@ class CommandHandler:
     def ijson(self, text):
         self.input(json.loads(text))
     
+    def interact(self, arg):
+        self.input(["interact", [None, "north", "south", "east", "west"], arg])
     
