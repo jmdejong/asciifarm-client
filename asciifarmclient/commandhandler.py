@@ -40,7 +40,8 @@ class CommandHandler:
             "ij": self.ijson,
             "hy": self.hy,
             "interact": self.interact,
-            "q": self.interact
+            "q": self.interact,
+            "buy": lambda option: self.interact("buy "+option)
         }
         
         self.evalArgs = {
