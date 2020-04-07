@@ -133,7 +133,9 @@ class Display:
     
     def setInventory(self, items):
         self.inventory.setItems(items)
-        
+    
+    def setInv(self, items):
+        self.inventory.setItems([(":" if is_equipped else " ") + item for (item, is_equipped) in items])
     
     def setEquipment(self, slots):
         self.equipment.setItems([

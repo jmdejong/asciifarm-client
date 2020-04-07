@@ -13,7 +13,7 @@
                     bread
                 </listing>
             </vbox>
-            <vbox key="equipment">
+<!--            <vbox key="equipment">
                 <textbox height="1">Equipment:</textbox>
                 <listing id="equipment">
                     cotton underwear
@@ -21,7 +21,7 @@
                     jeans
                     friendship bracelet
                 </listing>
-            </vbox>
+            </vbox>-->
             <vbox key="ground">
                 <textbox height="1">Ground:</textbox>
                 <listing id="ground">
