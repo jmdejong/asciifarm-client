@@ -57,17 +57,14 @@ class Display:
         # temporary, until these have a better place
         self.inventory = ListSelector(self.getWidget("inventory"))
         self.inventory._debug_name = "inventory"
-        self.equipment = ListSelector(self.getWidget("equipment"))
-        self.equipment._debug_name = "equipment"
         self.ground = ListSelector(self.getWidget("ground"))
         self.ground._debug_name = "ground"
         self.switch = ListSelector(self.getWidget("switchtitles"))
         self.switch._debug_name = "switch"
         
-        self.switch.setItems(["inventory", "equipment", "ground"])
+        self.switch.setItems(["inventory", "ground"])
         self.menus = {
             "inventory": self.inventory,
-            "equipment": self.equipment,
             "ground": self.ground
         }
         
@@ -136,12 +133,6 @@ class Display:
     
     def setInv(self, items):
         self.inventory.setItems([(":" if is_equipped else " ") + item for (item, is_equipped) in items])
-    
-    def setEquipment(self, slots):
-        self.equipment.setItems([
-            slot + ": " + (item if item else "")
-            for slot, item in slots
-        ])
     
     def setGround(self, items):
         self.ground.setItems(items)

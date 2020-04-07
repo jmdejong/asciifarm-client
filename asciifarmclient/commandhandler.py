@@ -103,12 +103,14 @@ class CommandHandler:
         self.input([action, self.client.display.getSelectedItem(menu).getSelected()])
     
     def useSelected(self):
-        menu = self.client.display.getSelectedMenu()
+        menu = "inventory"
         selected = self.client.display.getSelectedItem(menu)
-        if menu in ("inventory", "equipment"):
-            self.input(["use", menu, selected])
-        elif menu == "ground":
-            self.input(["interact", selected])
+        self.input(["use", menu, selected])
+    
+    def interactSelected(self):
+        menu = "ground"
+        selected = self.client.display.getSelectedItem(menu)
+        self.input(["interact", selected])
     
     def dropSelected(self):
         menu = self.client.display.getSelectedMenu()
