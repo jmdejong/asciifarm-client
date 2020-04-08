@@ -105,7 +105,7 @@ class CommandHandler:
     def useSelected(self):
         menu = "inventory"
         selected = self.client.display.getSelectedItem(menu)
-        self.input(["use", menu, selected])
+        self.input(["use", selected])
     
     def interactSelected(self):
         menu = "ground"
