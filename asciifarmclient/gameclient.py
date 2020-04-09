@@ -129,7 +129,7 @@ class Client:
         if msgType == "ground":
             self.display.setGround(msg[1])
         if msgType == "message":
-            type, text = msg[1][:2]
+            text, type = msg[1:3]
             self.log(text, type)
         if msgType == "messages":
             for type, text in msg[1]:
