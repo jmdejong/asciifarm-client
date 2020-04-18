@@ -16,7 +16,7 @@ ALPHABET = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`ab
 
 class Display:
     
-    def __init__(self, charMap):
+    def __init__(self, charMap, ratuil_args={}):
         
         self.characters = {}
         
@@ -46,7 +46,7 @@ class Display:
         self.layout = Layout.from_xml_file(fname)
         self.layout.get("field").set_char_size(charMap.get("charwidth", 1))
         
-        self.screen = Screen()
+        self.screen = Screen(**ratuil_args)
         self.screen.clear()
         
         self.layout.set_target(self.screen)

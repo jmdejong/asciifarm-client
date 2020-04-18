@@ -29,6 +29,8 @@ def parse_args(argv):
     parser.add_argument('-k', '--keybindings', help='The file with the keybinding configuration. This file is a JSON file.', default="default")
     parser.add_argument('-c', '--characters', help='The file with the character mappings for the graphics. If it is either of these names: {} it will be loaded from the charmaps directory.'.format(list(loaders.standardCharFiles.keys())), default="default")
     parser.add_argument('-o', '--logfile', help='All game messages will be written to this file.', default=None)
+    parser.add_argument('--reset-style', help='Reset the style when it changes. Useful on some terminals', action="store_true")
+    parser.add_argument('--blink-bright-background', help='Use blink attribute to make background brighter. Useful for terminals that don\'t have bright backgrounds usually. Implies --reset-style', action="store_true")
     
     colourGroup = parser.add_mutually_exclusive_group()
     colourGroup.add_argument('-l', '--colours', '--colors', help='enable colours! :)', action="store_true")
@@ -63,4 +65,4 @@ def parse_args(argv):
         else:
             name = username
     
-    return (name, args.socket, address, keybindings, charmap, colours, args.logfile)
+    return (name, args.socket, address, keybindings, charmap, colours, args.logfile, {"always_reset": args.reset_style, "blink_bright_background": args.blink_bright_background})

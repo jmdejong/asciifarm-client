@@ -16,7 +16,7 @@ from ratuil.screen import Screen
 
 def main(argv=None):
     
-    (name, socketType, address, keybindings, characters, colours, logfile) = parse_args(argv)
+    (name, socketType, address, keybindings, characters, colours, logfile, ratuil_args) = parse_args(argv)
     
     
     connection = Connection(socketType)
@@ -39,7 +39,7 @@ def main(argv=None):
         tty.setraw(sys.stdin)
         Screen.default.hide_cursor()
 
-        display = Display(characters)
+        display = Display(characters, ratuil_args)
         client = Client(display, name, connection, keybindings, logfile)
         signal.signal(signal.SIGWINCH, client.onSigwinch)
         try:
