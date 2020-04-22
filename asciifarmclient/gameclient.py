@@ -132,8 +132,18 @@ class Client:
             text, type = msg[1:3]
             self.log(text, type)
         if msgType == "messages":
-            for type, text in msg[1]:
-                self.log(text, type)
+            for message in msg[1]:
+                type = message[0]
+                text = message[1]
+                arg = None
+                if len(message) > 2:
+                    arg = message[2]
+                if type == "options":
+                    self.log(arg["description"])
+                    for (command, description) in arg["options"]:
+                        self.log("/q {:<24}   - {}".format(command, description))
+                else:
+                    self.log(text, type)
         if msgType == "options":
             if msg[1] != None:
                 description, options = msg[1]
