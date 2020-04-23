@@ -4,10 +4,6 @@ import os
 import sys
 
 import threading
-import json
-import getpass
-import argparse
-import string
 from queue import Queue
 
 import ratuil.inputs
@@ -35,7 +31,7 @@ class Client:
         
     
     def sendMessage(self, message):
-        self.connection.send(message.to_json_bytes())
+        self.connection.send(message)
     
     def sendInput(self, inp):
         message = messages.InputMessage(inp)
@@ -57,8 +53,8 @@ class Client:
     def listen(self):
         self.connection.listen(self.pushMessage, self.onConnectionError)
     
-    def pushMessage(self, databytes):
-        self.queue.put(("message", databytes))
+    def pushMessage(self, message):
+        self.queue.put(("message", message))
     
     def onConnectionError(self, error):
         self.queue.put(("error", error))
@@ -73,13 +69,10 @@ class Client:
         self.closeMessage = msg
     
     
-    def update(self, databytes):
-        if len(databytes) == 0:
+    def update(self, message):
+        if message is None:
             self.close("Connection closed by server")
             return
-        datastr = databytes.decode('utf-8')
-        msg = json.loads(datastr)
-        message = messages.messages[msg[0]].from_json(msg)
         if isinstance(message, messages.ErrorMessage):
             error = message.errType
             if error == "nametaken":

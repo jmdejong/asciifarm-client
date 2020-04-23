@@ -2,6 +2,8 @@
 import socket
 
 from asciifarmclient.common.tcommunicate import send, receive
+from asciifarmclient.common import messages
+import json
 
 class Connection:
     
@@ -17,14 +19,23 @@ class Connection:
     def connect(self, address):
         self.sock.connect(address)
     
+    def receive(self):
+        databytes = receive(self.sock)
+        if len(databytes) == 0:
+            return None
+        datastr = databytes.decode('utf-8')
+        msg = json.loads(datastr)
+        message = messages.messages[msg[0]].from_json(msg)
+        return message
+    
     def listen(self, callback, onError):
         while True:
             try:
-                data = receive(self.sock)
+                message = self.receive()
             except Exception as err:
                 onError(err)
             else:
-                callback(data)
+                callback(message)
     
     def send(self, message):
-        send(self.sock, message)
+        send(self.sock, message.to_json_bytes())
