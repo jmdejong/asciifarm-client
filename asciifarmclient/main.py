@@ -79,6 +79,8 @@ def introduce(connection, name):
     if isinstance(response, messages.ConnectedMessage):
         print("connection successful")
         return True
+    if isinstance(response, messages.MessageMessage):
+        return response.type == "connect"
     if isinstance(response, messages.ErrorMessage):
         if response.errType == "registered":
             print("'{}' is a registered name. Enter password to login, or restart the client with the -n <name> option to choose a different name".format(name))
