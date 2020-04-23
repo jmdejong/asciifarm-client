@@ -10,7 +10,7 @@ from . import loaders
 
 
 defaultAdresses = {
-    "abstract": "asciifarm",
+    "abstract": "rustifarm",
     "unix": "asciifarm.socket",
     "inet": "localhost:9021",
 }
