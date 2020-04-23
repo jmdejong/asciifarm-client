@@ -25,7 +25,7 @@ class Connection:
             return None
         datastr = databytes.decode('utf-8')
         msg = json.loads(datastr)
-        message = messages.messages[msg[0]].from_json(msg)
+        message = messages.message_from_json(msg)
         return message
     
     def listen(self, callback, onError):

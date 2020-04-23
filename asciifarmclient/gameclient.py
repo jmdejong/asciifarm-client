@@ -44,7 +44,6 @@ class Client:
             self.log(e.description)
     
     def start(self):
-        self.sendMessage(messages.NameMessage(self.name))
         threading.Thread(target=self.listen, daemon=True).start()
         threading.Thread(target=self.getInput, daemon=True).start()
         

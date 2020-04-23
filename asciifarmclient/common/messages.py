@@ -63,11 +63,34 @@ class NameMessage(ClientToServerMessage):
         if name[0] != "~":
             for char in name:
                 category = unicodedata.category(char)
+                print("'{}'".format(name))
                 assert category in self.categories, InvalidNameError("all name caracters must be in these unicode categories: " + "|".join(self.categories) + " (except for tildenames)")
         self.name = name
     
     def body(self):
         return self.name
+
+
+
+class AuthMessage(ClientToServerMessage):
+    
+    typename = "auth"
+    categories = {"Lu", "Ll", "Lt", "Lm", "Lo", "Nd", "Nl", "No", "Pc"}
+    
+    
+    def __init__(self, name, password):
+        assert isinstance(name, str), InvalidNameError("name must be a string")
+        assert (len(name) > 0), InvalidNameError("name needs at least one character")
+        assert (len(bytes(name, "utf-8")) <= 256), InvalidNameError("name may not be longer than 256 utf8 bytes")
+        if name[0] != "~":
+            for char in name:
+                category = unicodedata.category(char)
+                assert category in self.categories, InvalidNameError("all name caracters must be in these unicode categories: " + "|".join(self.categories) + " (except for tildenames)")
+        self.name = name
+        self.password = password
+    
+    def body(self):
+        return {"name": self.name, "type": "passtoken", "passtoken": self.password}
         
         
 class InputMessage(ClientToServerMessage):
@@ -145,6 +168,17 @@ class ErrorMessage(ServerToClientMessage):
         return [self.typename, self.errType, self.description]
 
 
+class ConnectedMessage(ServerToClientMessage):
+    
+    typename = "connected"
+    msglen = 2
+    
+    def __init__(self, description=""):
+        self.description = description
+    
+    def to_json(self):
+        return [self.typename, self.description]
+
 
 messages = {message.msgType(): message for message in [
     NameMessage,
@@ -152,6 +186,10 @@ messages = {message.msgType(): message for message in [
     ChatMessage,
     WorldMessage,
     ErrorMessage,
-    MessageMessage
+    MessageMessage,
+    ConnectedMessage
 ]}
+
+def message_from_json(msg):
+    return messages[msg[0]].from_json(msg)
 

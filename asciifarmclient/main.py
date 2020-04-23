@@ -6,13 +6,16 @@ import sys
 import termios
 import tty
 import signal
-#import os
+import getpass
+import hashlib
+import base64
 
 from .connection import Connection
 from .gameclient import Client
 from .display import Display
 from .parseargs import parse_args
 from ratuil.screen import Screen
+from asciifarmclient.common import messages
 
 def main(argv=None):
     
@@ -26,6 +29,8 @@ def main(argv=None):
         print("ERROR: Could not connect to server.\nAre you sure that the server is running and that you're connecting to the right address?", file=sys.stderr)
         return
     
+    if not introduce(connection, name):
+        return
     error = None
     closeMessage = None
     
@@ -63,3 +68,39 @@ def main(argv=None):
     if closeMessage:
         print(closeMessage, file=sys.stderr)
 
+
+def introduce(connection, name):
+    connection.send(messages.NameMessage(name))
+    print("introducing to server as {}".format(name))
+    response = connection.receive()
+    if response is None:
+        print("connection lost")
+        return False
+    if isinstance(response, messages.ConnectedMessage):
+        print("connection successful")
+        return True
+    if isinstance(response, messages.ErrorMessage):
+        if response.errType == "registered":
+            print("'{}' is a registered name. Enter password to login, or restart the client with the -n <name> option to choose a different name".format(name))
+            password = getpass.getpass()
+            m = hashlib.sha256()
+            m.update(bytes("asciifarm{name}{pw}{name}asciifarm".format(name=name, pw=password), "utf-8"))
+            passbytes = m.digest()
+            passtoken = base64.b64encode(passbytes).decode("ascii")
+            connection.send(messages.AuthMessage(name, passtoken))
+            response = connection.receive()
+            if response is None:
+                print("connection lost")
+                return False
+            if isinstance(response, messages.ConnectedMessage):
+                print("connection successful")
+                return True
+            
+            print("Connection unsuccessful: {}".format(response.to_json()))
+            return False
+        else:
+            print("Error: {}".format(response.to_json()), file=sys.stderr)
+            return False
+    
+    print("Invalid server response: {}".format(response.to_json()), file=sys.stderr)
+    return False
