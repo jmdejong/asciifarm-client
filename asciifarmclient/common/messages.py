@@ -63,7 +63,6 @@ class NameMessage(ClientToServerMessage):
         if name[0] != "~":
             for char in name:
                 category = unicodedata.category(char)
-                print("'{}'".format(name))
                 assert category in self.categories, InvalidNameError("all name caracters must be in these unicode categories: " + "|".join(self.categories) + " (except for tildenames)")
         self.name = name
     
