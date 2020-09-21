@@ -10,7 +10,7 @@ The client for Asciifarm
 
 Asciifarm is a multiplayer RPG/farming game that is played in the terminal.
 
-The intended use is to play this servers with a shared login (through ssh) but it can be layed in other contexts too.
+The intended use is to play this servers with a shared login (through ssh) but it can be played in other contexts too.
 
 Players can fight enemies and plant crops to gather resources.
 
