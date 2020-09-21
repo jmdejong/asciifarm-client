@@ -43,6 +43,8 @@
         "opendoor": ["\"", 3],
         "raindrop": [":", 12],
         "snowflake": ["*", 15],
+        "human": ["U", 7],
+        "sign": ["?", 3],
         " ": [" ", 7]
     },
     "writable": {
