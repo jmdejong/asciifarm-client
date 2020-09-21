@@ -46,6 +46,11 @@
         "snowflake": ["＊",15],
         "human": ["Ｕ", 7],
         "sign": ["？", 3],
+        "spinningwheel": ["５", 3],
+        "loom": ["４", 3],
+        "cotton": ["８", 15],
+        "cottonyarn": ["０", 15],
+        "cottoncloth": ["Ｈ", 15],
         " ": ["  ", 7]
     },
     "default": ["？", 7],
