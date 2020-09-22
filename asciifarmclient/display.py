@@ -17,7 +17,6 @@ class Display:
     
     def __init__(self, charmap, ratuil_args={}):
         
-        
         self.charmap = charmap
         
         fname = os.path.join(os.path.dirname(__file__), "layout.xml")

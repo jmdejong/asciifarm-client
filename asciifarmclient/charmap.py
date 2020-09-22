@@ -8,14 +8,14 @@ ALPHABET = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`ab
 
 
 def make_text_wide(char):
-    if len(char) != 1 or strwidth.strwidth(char) != 1:
+    if len(char) != 1:
         return char
     o = ord(char)
     if o >= ord('!') and o <= ord('~'): # printable ascii character
         return chr(o - ord("!") + ord('！')) # fullwidth ascii block
     if char == " ":
         return chr(12288) # ideographic space
-    return char + char
+    return char
 
 def make_sprite_wide(sprite):
     (char, fg, bg) = sprite
