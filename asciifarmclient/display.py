@@ -6,7 +6,6 @@ from ratuil.layout import Layout
 from ratuil.bufferedscreen import BufferedScreen as Screen
 #from ratuil.screen import Screen
 from ratuil.textstyle import TextStyle
-from .utils import get
 from .listselector import ListSelector
 
 
@@ -16,35 +15,14 @@ ALPHABET = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`ab
 
 class Display:
     
-    def __init__(self, charMap, ratuil_args={}):
+    def __init__(self, charmap, ratuil_args={}):
         
-        self.characters = {}
         
-        def parseSprite(sprite):
-            if isinstance(sprite, str):
-                return (sprite, None, None)
-            char = get(sprite, 0, " ")
-            fg = get(sprite, 1)
-            bg = get(sprite, 2)
-            return (char, fg, bg)
-        for name, sprite in charMap["mapping"].items():
-            vals = parseSprite(sprite)
-            if vals:
-                self.characters[name] = vals
-        
-        for name, colours in charMap.get("writable", {}).items():
-            fg = get(colours, 0)
-            bg = get(colours, 1)
-            for i in range(min(len(ALPHABET), len(charMap.get("alphabet", [])))):
-                self.characters[name + '-' + ALPHABET[i]] = (charMap["alphabet"][i], fg, bg)
-        
-        self.defaultChar = parseSprite(charMap.get("default", "?"))
-        
-        self.messageColours = charMap.get("msgcolours", {})
+        self.charmap = charmap
         
         fname = os.path.join(os.path.dirname(__file__), "layout.xml")
         self.layout = Layout.from_xml_file(fname)
-        self.layout.get("field").set_char_size(charMap.get("charwidth", 1))
+        self.layout.get("field").set_char_size(self.charmap.character_width)
         
         self.screen = Screen(**ratuil_args)
         self.screen.clear()
@@ -140,7 +118,7 @@ class Display:
     
     def addMessage(self, message, msgtype=None):
         if msgtype is not None:
-            style = TextStyle(*self.messageColours.get(msgtype, (7,0)))
+            style = self.charmap.get_message_style(msgtype)
         else:
             style = None
         self.getWidget("msg").add_message(message, style)
@@ -160,7 +138,7 @@ class Display:
     
     def getChar(self, sprite):
         """This returns the character belonging to some spritename. This does not read a character"""
-        return self.characters.get(sprite, self.defaultChar)
+        return self.charmap.get(sprite)
     
     def update_size(self):
         self.screen.reset()

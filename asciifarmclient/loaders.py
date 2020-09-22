@@ -2,6 +2,7 @@
 import os
 
 from .paths import keybindingsPath, charmapPath
+from .charmap import CharMap
 import json
 
 
@@ -40,7 +41,8 @@ standardCharFiles = {name: os.path.join(charmapPath, file) for name, file in {
     "emoji": "emoji.json"
 }.items()}
 
-def loadCharmap(name):
+def loadCharmapJson(name):
+    
     fname = None
     if name in standardCharFiles:
         fname = standardCharFiles[name]
@@ -53,29 +55,16 @@ def loadCharmap(name):
     for ftemplate in data.get("templates", []):
         if ftemplate.partition(os.sep)[0] in {".", ".."}:
             ftemplate = os.path.relpath(ftemplate, fname)
-        templates.append(loadCharmap(ftemplate))
+        templates.extend(loadCharmapJson(ftemplate))
     
     templates.append(data)
+    return templates
+
+def loadCharmap(name):
     
-    mapping = {}
-    writable = {}
-    default = None
-    charwidth = 1
-    alphabet = ""
-    msgcolours = {}
-    
+    templates = loadCharmapJson(name)
+    charmap = CharMap()
     for template in templates:
-        mapping.update(template.get("mapping", {}))
-        writable.update(template.get("writable", {}))
-        default = template.get("default", default)
-        charwidth = template.get("charwidth", charwidth)
-        alphabet = template.get("alphabet", alphabet)
-        msgcolours.update(template.get("msgcolours", {}))
-    return {
-        "mapping": mapping,
-        "writable": writable,
-        "default": default,
-        "charwidth": charwidth,
-        "alphabet": alphabet,
-        "msgcolours": msgcolours
-    }
+        charmap.apply_json(template)
+    
+    return charmap
