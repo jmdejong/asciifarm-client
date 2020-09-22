@@ -67,4 +67,7 @@ def loadCharmap(name):
     for template in templates:
         charmap.apply_json(template)
     
+    if charmap.character_width == 2:
+        charmap.make_wide()
+    
     return charmap

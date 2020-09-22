@@ -2,8 +2,25 @@
 
 from .utils import get
 from ratuil.textstyle import TextStyle
+from ratuil import strwidth
 
 ALPHABET = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+
+
+def make_text_wide(char):
+    if len(char) != 1 or strwidth.strwidth(char) != 1:
+        return char
+    o = ord(char)
+    if o >= ord('!') and o <= ord('~'): # printable ascii character
+        return chr(o - ord("!") + ord('！')) # fullwidth ascii block
+    if char == " ":
+        return chr(12288) # ideographic space
+    return char + char
+
+def make_sprite_wide(sprite):
+    (char, fg, bg) = sprite
+    return (make_text_wide(char), fg, bg)
+
 
 def parseSprite(sprite):
     if isinstance(sprite, str):
@@ -47,4 +64,12 @@ class CharMap:
         for name, colour in jsonmap.get("msgcolours", {}).items():
             self.message_styles[name] = TextStyle(*colour)
         self.character_width = jsonmap.get("charwidth", self.character_width)
+    
+    def make_wide(self):
+        self.default = make_sprite_wide(self.default)
+        mapping = {}
+        for key, sprite in self.mapping.items():
+            mapping[key] = make_sprite_wide(sprite)
+        self.mapping = mapping
+        self.alphabet = "".join(make_text_wide(char) for char in self.alphabet)
         

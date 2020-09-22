@@ -30,8 +30,6 @@ class Display:
         self.layout.set_target(self.screen)
         self.layout.update()
         
-        
-        
         # temporary, until these have a better place
         self.inventory = ListSelector(self.getWidget("inventory"))
         self.inventory._debug_name = "inventory"
@@ -61,13 +59,13 @@ class Display:
         for cell in cells:
             (x, y), spriteNames = cell
             if not len(spriteNames):
-                char, fg, bg = self.getChar(' ')
+                char, fg, bg = self.charmap.get(' ')
             else:
-                char, fg, bg = self.getChar(spriteNames[0])
+                char, fg, bg = self.charmap.get(spriteNames[0])
                 for spriteName in spriteNames[1:]:
                     if bg is not None:
                         break
-                    _char, _fg, bg = self.getChar(spriteName)
+                    _char, _fg, bg = self.charmap.get(spriteName)
             field.change_cell(x, y, char, TextStyle(fg, bg))
         
     
@@ -135,10 +133,6 @@ class Display:
     def update(self):
         self.layout.update()
         self.screen.update()
-    
-    def getChar(self, sprite):
-        """This returns the character belonging to some spritename. This does not read a character"""
-        return self.charmap.get(sprite)
     
     def update_size(self):
         self.screen.reset()
