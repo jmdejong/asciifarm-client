@@ -8,6 +8,7 @@
         "stone": ["o", 7],
         "pebble": ["*", 7],
         "player": ["@", 15],
+        "grayplayer": ["@", 7],
         "redplayer": ["@", 9],
         "greenplayer": ["@", 10],
         "blueplayer": ["@", 12],
@@ -53,6 +54,9 @@
         "cotton": ["8", 15],
         "cottonyarn": ["0", 15],
         "cottoncloth": ["H", 7],
+        "tub": ["u", 3],
+        "sewingtable": ["s", 15],
+        "bag": ["6", 7],
         " ": [" ", 7]
     },
     "writable": {
