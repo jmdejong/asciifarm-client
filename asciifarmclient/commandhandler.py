@@ -77,7 +77,7 @@ class CommandHandler:
         self.input(["say", text])
     
     def pick(self, option):
-        self.input(["interact", [None, "north", "south", "east", "west"], option])
+        self.input(["interact", ["none", "north", "south", "east", "west"], option])
     
     def chat(self, text):
         self.client.sendChat( text)
@@ -153,5 +153,5 @@ class CommandHandler:
         self.input(json.loads(text))
     
     def interact(self, arg):
-        self.input(["interact", [None, "north", "south", "east", "west"], arg])
+        self.input(["interact", ["none", "north", "south", "east", "west"], arg])
     
