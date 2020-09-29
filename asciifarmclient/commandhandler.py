@@ -123,12 +123,11 @@ class CommandHandler:
     
     def takeSelected(self):
         menu = self.client.display.getSelectedMenu()
-        selected = self.client.display.getSelectedItem(menu)
         if menu == "ground":
-            action = "take"
+            selected = self.client.display.getSelectedItem(menu)
         else:
-            return
-        self.input([action, selected])
+            selected = None
+        self.input(["take", selected])
     
     def eval(self, text):
         self.log(eval(text, self.evalArgs))
