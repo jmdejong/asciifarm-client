@@ -59,6 +59,7 @@
         "tub": ["u", 3],
         "sewingtable": ["s", 15],
         "bag": ["6", 7],
+        "densegrass": [";", 2],
         " ": [" ", 7]
     },
     "writable": {

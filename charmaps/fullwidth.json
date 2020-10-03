@@ -3,6 +3,7 @@
     "charwidth": 2,
     "mapping": {
         "house": ["^^", 3, 1],
-        "spikes": ["^^",7]
+        "spikes": ["^^",7],
+        "densegrass": [";;", 2]
     }
 }
