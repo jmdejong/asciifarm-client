@@ -3,8 +3,6 @@
 import json
 
 import sys
-import termios
-import tty
 import signal
 import getpass
 import hashlib
@@ -14,13 +12,20 @@ from .connection import Connection
 from .gameclient import Client
 from .display import Display
 from .parseargs import parse_args
-from ratuil.screen import Screen
 from asciifarmclient.common import messages
 
 def main(argv=None):
     
-    (name, socketType, address, keybindings, characters, colours, logfile, ratuil_args) = parse_args(argv)
+    (name, socketType, address, keybindings, characters, colours, logfile, ratuil_screen, ratuil_args) = parse_args(argv)
     
+    if ratuil_screen == "ansibuffered":
+        from ratuil.bufferedscreen import Screen
+    elif ratuil_screen == "ansi":
+        from ratuil.ansiscreen import Screen
+    elif ratuil_screen == "curses":
+        from ratuil.cursedscreen import Screen
+    else:
+        raise ValueError("Invalid ratuil screen selected")
     
     connection = Connection(socketType)
     try:
@@ -35,16 +40,12 @@ def main(argv=None):
     closeMessage = None
     
     #os.environ.setdefault("ESCDELAY", "25")
-    
-    fd = sys.stdin.fileno()
-    oldterm = termios.tcgetattr(fd)
+    screen = Screen(**ratuil_args)
     
     try:
-        
-        tty.setraw(sys.stdin)
-        Screen.default.hide_cursor()
+        screen.initialize_terminal()
 
-        display = Display(characters, ratuil_args)
+        display = Display(screen, characters, ratuil_args)
         client = Client(display, name, connection, keybindings, logfile)
         signal.signal(signal.SIGWINCH, client.onSigwinch)
         try:
@@ -58,8 +59,7 @@ def main(argv=None):
         closeMessage = client.closeMessage
     finally:
         ## Set everything back to normal
-        termios.tcsetattr(fd, termios.TCSADRAIN, oldterm)
-        Screen.default.finalize()
+        screen.finalize_terminal()
         
     
     if error is not None:

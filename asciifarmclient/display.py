@@ -2,10 +2,8 @@
 
 
 import os
-from ratuil.layout import Layout
-from ratuil.bufferedscreen import BufferedScreen as Screen
-#from ratuil.screen import Screen
 from ratuil.textstyle import TextStyle
+from ratuil.layout import Layout
 from .listselector import ListSelector
 
 
@@ -15,18 +13,17 @@ ALPHABET = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`ab
 
 class Display:
     
-    def __init__(self, charmap, ratuil_args={}):
+    def __init__(self, screen, charmap, ratuil_args={}):
+        self.screen = screen
         
         self.charmap = charmap
         
         fname = os.path.join(os.path.dirname(__file__), "layout.xml")
-        self.layout = Layout.from_xml_file(fname)
+        self.layout = Layout.from_xml_file(screen, fname)
         self.layout.get("field").set_char_size(self.charmap.character_width)
         
-        self.screen = Screen(**ratuil_args)
         self.screen.clear()
         
-        self.layout.set_target(self.screen)
         self.layout.update()
         
         # temporary, until these have a better place

@@ -31,6 +31,7 @@ def parse_args(argv):
     parser.add_argument('-o', '--logfile', help='All game messages will be written to this file.', default=None)
     parser.add_argument('--reset-style', help='Reset the style when it changes. Useful on some terminals', action="store_true")
     parser.add_argument('--blink-bright-background', help='Use blink attribute to make background brighter. Useful for terminals that don\'t have bright backgrounds usually. Implies --reset-style', action="store_true")
+    parser.add_argument('--ratuil-screen', help='The drawing backend that ratuil uses', choices=["curses", "ansi", "ansibuffered"], default="curses")
     
     colourGroup = parser.add_mutually_exclusive_group()
     colourGroup.add_argument('-l', '--colours', '--colors', help='enable colours! :)', action="store_true")
@@ -65,4 +66,4 @@ def parse_args(argv):
         else:
             name = username
     
-    return (name, args.socket, address, keybindings, charmap, colours, args.logfile, {"always_reset": args.reset_style, "blink_bright_background": args.blink_bright_background})
+    return (name, args.socket, address, keybindings, charmap, colours, args.logfile, args.ratuil_screen, {"always_reset": args.reset_style, "blink_bright_background": args.blink_bright_background})
