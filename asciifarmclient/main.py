@@ -45,7 +45,7 @@ def main(argv=None):
     try:
         screen.initialize_terminal()
 
-        display = Display(screen, characters, ratuil_args)
+        display = Display(screen, characters)
         client = Client(display, name, connection, keybindings, logfile)
         signal.signal(signal.SIGWINCH, client.onSigwinch)
         try:

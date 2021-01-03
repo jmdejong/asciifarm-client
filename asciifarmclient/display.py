@@ -13,8 +13,9 @@ ALPHABET = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`ab
 
 class Display:
     
-    def __init__(self, screen, charmap, ratuil_args={}):
+    def __init__(self, screen, charmap):
         self.screen = screen
+        self.screen.clear()
         
         self.charmap = charmap
         
@@ -22,7 +23,6 @@ class Display:
         self.layout = Layout.from_xml_file(screen, fname)
         self.layout.get("field").set_char_size(self.charmap.character_width)
         
-        self.screen.clear()
         
         self.layout.update()
         
