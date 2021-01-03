@@ -5,6 +5,7 @@ import getpass
 import json
 import os
 import os.path
+import sys
 
 from . import loaders
 
@@ -25,7 +26,7 @@ def parse_args(argv):
     ~troido""", formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-n', '--name', help='Your player name (must be unique!). Defaults to username on inet sockets and tildename on unix socket (including abstract). Apart from the tilde in a tildename all characters must be unicode letters, numbers or connection puctuation. The maximum size of a name is 256 bytes when encoded as utf8', default=None)
     parser.add_argument("-a", "--address", help="The address of the socket. When the socket type is 'abstract' this is just a name. When it is 'unix' this is a filename. When it is 'inet' is should be in the format 'address:port', eg 'localhost:8080'. Defaults depends on the socket type")
-    parser.add_argument("-s", "--socket", help="the socket type. 'unix' is unix domain sockets, 'abstract' is abstract unix domain sockets and 'inet' is inet sockets. ", choices=["abstract", "unix", "inet"], default="abstract")
+    parser.add_argument("-s", "--socket", help="the socket type. 'unix' is unix domain sockets, 'abstract' is abstract unix domain sockets and 'inet' is inet sockets. ", choices=["abstract", "unix", "inet"], default=("abstract" if sys.platform == "linux" else "inet"))
     parser.add_argument('-k', '--keybindings', help='The file with the keybinding configuration. This file is a JSON file.', default="default")
     parser.add_argument('-c', '--characters', help='The file with the character mappings for the graphics. If it is either of these names: {} it will be loaded from the charmaps directory.'.format(list(loaders.standardCharFiles.keys())), default="default")
     parser.add_argument('-o', '--logfile', help='All game messages will be written to this file.', default=None)
@@ -49,7 +50,7 @@ def parse_args(argv):
     if args.socket == "abstract":
         address = '\0' + address
     elif args.socket == "inet":
-        hostname, sep, port = address.partition(':')
+        hostname, sep, port = address.rpartition(':')
         address = (hostname, int(port))
     
     colours = True
