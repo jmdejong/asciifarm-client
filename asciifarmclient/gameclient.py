@@ -50,7 +50,10 @@ class Client:
         self.command_loop()
     
     def listen(self):
-        self.connection.listen(self.pushMessage, self.onConnectionError)
+        try:
+            self.connection.listen(self.pushMessage, self.onConnectionError)
+        except BaseException as error:
+            self.queue.put(("error", error))
     
     def pushMessage(self, message):
         self.queue.put(("message", message))
@@ -59,9 +62,12 @@ class Client:
         self.queue.put(("error", error))
     
     def getInput(self):
-        while True:
-            key = self.display.screen.get_key()
-            self.queue.put(("input", key))
+        try:
+            while True:
+                key = self.display.screen.get_key()
+                self.queue.put(("input", key))
+        except BaseException as error:
+            self.queue.put(("error", error))
     
     def close(self, msg=None):
         self.keepalive = False
