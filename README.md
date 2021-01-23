@@ -18,7 +18,7 @@ Players can fight enemies and plant crops to gather resources.
 
 _a better installation with pip will be added in the future_
 
-The asciifarm client requires [ratuil](https://github.com/jmdejong/ratuil) to run.
+The asciifarm client requires [ratuil](https://github.com/jmdejong/ratuil) version 0.3.0 (at least) to run.
 To install ratuil run:
 
     python3 -m pip install --user ratuil

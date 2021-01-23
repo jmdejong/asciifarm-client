@@ -84,7 +84,7 @@ class InputHandler:
             self.cursor = 0
             self.typing = False
             self.processString(message)
-        elif key == "^I": # tab
+        elif key == inp.TAB:
             # return to game but keep entered string
             self.typing = False
         elif key.isprintable() and len(key) == 1:

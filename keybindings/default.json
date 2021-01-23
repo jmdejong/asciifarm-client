@@ -32,7 +32,7 @@
 "D": ["input", ["attack", ["east"]]],
 "A": ["input", ["attack", ["west"]]],
 "t": ["runinput"],
-"enter": ["runinput"],
+"\n": ["runinput"],
 "pageup": ["scrollchat", 1],
 "pagedown": ["scrollchat", -1],
 "/": ["runinput", "/"]

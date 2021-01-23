@@ -60,7 +60,7 @@ class Client:
     
     def getInput(self):
         while True:
-            key = ratuil.inputs.get_key()
+            key = self.display.screen.get_key()
             self.queue.put(("input", key))
     
     def close(self, msg=None):

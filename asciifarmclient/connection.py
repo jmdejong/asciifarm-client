@@ -10,8 +10,10 @@ class Connection:
     def __init__(self, socketType):
         if socketType == "abstract" or socketType == "unix":
             sockType = socket.AF_UNIX
-        elif socketType == "inet":
+        elif socketType == "inet" or socketType == "inet4":
             sockType = socket.AF_INET
+        elif socketType == "inet6":
+            sockType = socket.AF_INET6
         else:
             raise ValueError("Invalid socket type: %r" % (socketType,))
         self.sock = socket.socket(sockType, socket.SOCK_STREAM)
