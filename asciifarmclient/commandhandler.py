@@ -19,6 +19,7 @@ class CommandHandler:
         self.commands = {
             "input": self.input,
             "move": self.move,
+            "describe": self.describe,
             "say": self.say,
             "pick": self.pick,
             "chat": self.chat,
@@ -72,6 +73,9 @@ class CommandHandler:
     
     def move(self, direction):
         self.input(["move", direction])
+        
+    def describe(self, direction):
+        self.input(["describe", direction])
     
     def say(self, text):
         self.input(["say", text])
