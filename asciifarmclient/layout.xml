@@ -27,9 +27,6 @@
         <log id="msg" align="bottom" height="20%%">
             Welcome to asciifarm
         </log>
-        <overlay>
-            <fill id="fieldbackground" char=" "></fill>
-            <field id="field"></field>
-        </overlay>
+        <field id="field"></field>
     </vbox>
 </hbox>

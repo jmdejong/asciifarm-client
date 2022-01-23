@@ -48,7 +48,8 @@ class Display:
     
     def resizeField(self, size):
         self.getWidget("field").set_size(*size)
-        self.getWidget("fieldbackground").change()
+        self.screen.clear()
+        self.update(True)
     
     def drawFieldCells(self, cells):
         field = self.getWidget("field")
@@ -126,8 +127,8 @@ class Display:
     def setInputString(self, string, cursor):
         self.getWidget("textinput").set_text(string, cursor)
     
-    def update(self):
-        self.layout.update()
+    def update(self, force=False):
+        self.layout.update(force)
         self.screen.update()
     
     def update_size(self):
